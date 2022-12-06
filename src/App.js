@@ -131,7 +131,10 @@ function App() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() =>
-                      buyProduct(Number(product.id), Number(product.price))
+                      buyProduct(
+                        Number(product.id),
+                        Web3.utils.toWei(String(product.price), "ether")
+                      )
                     }
                   >
                     Buy
