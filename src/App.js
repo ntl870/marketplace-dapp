@@ -62,7 +62,6 @@ function App() {
   };
 
   if (loading) return <div>loading...</div>;
-
   return (
     <div className="App">
       <div
@@ -118,31 +117,29 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <th scope="row">{product.id}</th>
-              <td>{product.name}</td>
-              <td>{`${product.price / Math.pow(10, 18)} ETH`}</td>
-              <td>{product.purchased ? "X" : ""}</td>
+          {products.map((product) => {
+            const price = Web3.utils.fromWei(String(product.price), "ether");
+            return (
+              <tr key={product.id}>
+                <th scope="row">{product.id}</th>
+                <td>{product.name}</td>
+                <td>{`${product.price / Math.pow(10, 18)} ETH`}</td>
+                <td>{product.purchased ? "X" : ""}</td>
 
-              <td>
-                {!product.purchased && (
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() =>
-                      buyProduct(
-                        Number(product.id),
-                        Web3.utils.toWei(String(product.price), "ether")
-                      )
-                    }
-                  >
-                    Buy
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
+                <td>
+                  {!product.purchased && (
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => buyProduct(Number(product.id), price)}
+                    >
+                      Buy
+                    </button>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {/* {products.map((product, index) => (
